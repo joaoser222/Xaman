@@ -1,18 +1,18 @@
 <template>
   <q-page>
     <div class="q-pa-md row items-start q-gutter-md">
-      <q-card v-for="(obj, index) in items" :key="index" class="bg-secondary col-3">
+      <q-card v-for="(obj, index) in items" :key="index" class="col-3 text-primary">
         <q-toolbar>
           <div class="text-h6">{{obj.name}}</div>
           <q-space />
-          <q-btn flat round icon="las la-cog" @click="editData(obj)"/>
-          <q-btn flat round icon="las la-trash-alt" @click="deleteData(obj.id)"/>
+          <q-btn flat round icon="icon-settings-outline" @click="editData(obj)"/>
+          <q-btn flat round icon="icon-trash-outline" @click="deleteData(obj.id)"/>
         </q-toolbar>
         <q-card-section>
            
           <div class="text-subtitle2">{{obj.engine}}://{{obj.host}}/{{obj.database}}</div>
         </q-card-section>
-        <q-btn unelevated class="full-width q-pa-sm" icon="las la-plug" label="Conectar" :to="'/queries/'+obj.name"/>
+        <q-btn unelevated class="full-width q-pa-sm" icon="icon-log-in-outline" label="Conectar" :to="'/queries/'+obj.name"/>
       </q-card>
     </div>
     <q-dialog v-model="dialog">
@@ -30,7 +30,7 @@
                       v-model="item.type"
                       emit-value
                       map-options
-                      dense dropdown-icon="las la-angle-down"
+                      dense dropdown-icon="icon-chevron-down-outline"
                       :options="$dataset_types"
                       label="Tipo" 
                     />
@@ -44,7 +44,7 @@
                           v-model="item.engine"
                           emit-value
                           map-options
-                          dense dropdown-icon="las la-angle-down"
+                          dense dropdown-icon="icon-chevron-down-outline"
                           :options="$engines"
                           label="Tipo"
                         />
@@ -79,7 +79,7 @@
       </q-card>
     </q-dialog>
     <q-page-sticky position="bottom-right" :offset="[18, 18]">
-      <q-btn fab icon="las la-plus" color="primary" @click="dialog = true"/>
+      <q-btn fab icon="icon-add-outline" color="primary" @click="dialog = true"/>
     </q-page-sticky>
   </q-page>
 </template>
