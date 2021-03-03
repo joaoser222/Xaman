@@ -1,5 +1,12 @@
-// app global css in SCSS form
-body.body--dark {
-    background: $dark;
-  }
+@import 'quasar.variables.scss';
+@import 'ionicons.css';
+body {
+  background: $grey-1;
+}
+.CodeMirror{
+  border-radius: $generic-border-radius;
+}
+tbody tr:nth-child(odd) {
+  background-color: $blue-grey-1;
+}
   
