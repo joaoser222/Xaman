@@ -7,21 +7,21 @@ export default function ({ store } ) {
   const routes = [
     {
       path: '/',
-      name: 'home',
+      name: 'Home',
       redirect:  '/dashboard',
     },
     {
       path: '/dashboard',
-      name: 'dashboard',
+      name: 'Dashboard',
       component: () => import('layouts/MainLayout.vue'),
       meta: { requiresAuth: true },
       children: [
-        { path: '',name: 'Servidores',icon: 'las la-database', component: () => import('pages/Datasets.vue') },
-        { path: 'charts',name: 'Relatórios',icon: 'las la-chart-bar', component: () => import('pages/Charts.vue') },      
+        { path: '',name: 'Fontes de dados',icon: 'icon-server-outline', component: () => import('pages/Datasets.vue') },
+        { path: 'charts',name: 'Relatórios',icon: 'icon-bar-chart-outline', component: () => import('pages/Charts.vue') },      
         {
           path: 'logout',
           name: 'Sair',
-          icon: 'las la-sign-out-alt',
+          icon: 'icon-log-out-outline',
           beforeEnter: (to, from, next)=>{
             store.dispatch('AuthLogout');
             next('/login');
@@ -39,7 +39,7 @@ export default function ({ store } ) {
     {
       path: '/queries/:server',
       name: 'Consultas',
-      icon: 'las la-terminal',
+      icon: 'ion-terminal',
       component: () => import('pages/Queries.vue')
     },
   ]
