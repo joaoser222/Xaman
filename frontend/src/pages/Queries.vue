@@ -1,19 +1,19 @@
 <template>
   <q-layout view="lHh Lpr lFf">
-    <q-header>
-      <q-toolbar class="bg-secondary">
+    <q-header class="q-ma-sm bg-transparent">
+      <q-toolbar class="bg-accent rounded-borders">
         <q-btn
           flat
           dense
           round
           @click="drawer = !drawer"
-          icon="las la-bars"
+          icon="icon-menu-outline"
           aria-label="Menu"
         />
-        <q-btn flat dense no-caps icon="las la-folder-open" @click="openFile()">Abrir</q-btn>
-        <q-btn flat dense no-caps icon="las la-save">Salvar</q-btn>
-        <q-btn flat dense no-caps icon="las la-play" @click="sendQuery()">Executar</q-btn>
-        <q-btn flat dense no-caps icon="las la-file-export">Exportar</q-btn>
+        <q-btn flat dense no-caps icon="icon-folder-outline" @click="openFile()">&nbsp;Abrir</q-btn>
+        <q-btn flat dense no-caps icon="icon-save-outline">&nbsp;Salvar</q-btn>
+        <q-btn flat dense no-caps icon="icon-play-outline" @click="sendQuery()">&nbsp;Executar</q-btn>
+        <q-btn flat dense no-caps icon="icon-document-text-outline">&nbsp;Exportar</q-btn>
       </q-toolbar>
     </q-header>
     <q-drawer
@@ -23,13 +23,15 @@
         show-if-above
     >
       <q-scroll-area
-          :thumb-style="$scroll_style.thumb"
-          :bar-style="$scroll_style.bar"
-          style="height: 100vh;"
+        :thumb-style="$scroll_style.thumb"
+        :bar-style="$scroll_style.bar"
+        style="height: 100vh;"
       >
-        <q-tree
-          :nodes="server"
-          node-key="label"
+        <recursive-list
+          :nodes="server.children"
+          :icon="server.icon"
+          :label="server.label"
+          :inset="0"
         />
       </q-scroll-area>
     </q-drawer>
@@ -54,31 +56,32 @@
             >
             <div>
               {{item.label}}
-              <q-btn unelevated round class="q-ml-xs" size="xs" icon="las la-times" @click="dropTab(index)" v-show="tabs.length>1"></q-btn>
+              <q-btn unelevated round class="q-ml-xs" size="xs" icon="icon-close-outline" @click="dropTab(index)" v-show="tabs.length>1"></q-btn>
             </div>
           </q-tab>
-          <q-btn flat round size="sm" icon="las la-plus" @click="addTab()"/>
+          <q-btn flat round size="sm" icon="icon-add-outline" @click="addTab()"/>
         </q-tabs>
-        <q-tab-panels v-model="selected_tab" animated>
+        <q-tab-panels v-model="selected_tab" class="bg-transparent">
           <q-tab-panel v-for="(item,index) in tabs" :key="index" :name="item.name">
             <q-splitter
                 v-model="item.splitter"
                 :limits="[30, 100]"
                 horizontal
-                style="height: 100%;"
+                style="height: 100%"
               >
-                <template v-slot:before>                
-                  <codemirror v-model="item.code"></codemirror>
+                <template v-slot:before>
+                  <div class="q-ma-sm shadow-8">                
+                   <codemirror v-model="item.code"></codemirror>
+                  </div>
                 </template>
                 <template v-slot:after>
                   <q-table 
                     separator="cell" 
-                    class="bg-secondary"
+                    class="q-mx-sm q-my-md shadow-8"
                     :data="item.table.data"
                     :columns="item.table.headers"
                     :loading="item.table.loading"
-                    flat
-                    dense
+                    
                     bordered
                     virtual-scroll
                     :virtual-scroll-item-size="48"
@@ -99,14 +102,18 @@
 </template>
 <script>
 import FileManager from 'components/FileManager.vue';
+import RecursiveList from 'components/RecursiveList.vue';
 export default {
+    components: {
+      RecursiveList
+    },
     data: ()=>({
         drawer: true,
         selected_tab: null,
         tabs_number: 0,
         tabs: [],
         dataset: [],
-        server: [],
+        server: {},
         thumbStyle: {
             right: '4px',
             borderRadius: '5px',
@@ -128,11 +135,11 @@ export default {
         _this.$axios.get('/api/auth/datasets?dataset='+_this.$route.params.server)
         .then((response)=>{
           _this.dataset = response.data.dataset;
-          _this.server.push({
+          _this.server = {
             label: `${response.data.dataset['name']}: ${response.data.dataset['host']}/${response.data.dataset['database']}`,
-            icon:'las la-server',
-            children:response.data.objects
-          });
+            icon:'icon-server',
+            children: [...JSON.parse(JSON.stringify(response.data.objects))]
+          };
         });      
       },
       addTab(file_path='',file_content=''){
