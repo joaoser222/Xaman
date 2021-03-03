@@ -40,9 +40,6 @@ module.exports = function (ctx) {
       all: 'auto',
 
       components: [],
-      config:{
-        dark: true
-      },
       directives: [],
 
       // Quasar plugins
