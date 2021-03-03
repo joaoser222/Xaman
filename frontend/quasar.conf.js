@@ -25,16 +25,11 @@ module.exports = function (ctx) {
       // 'themify',
       // 'line-awesome',
       // 'roboto-font-latin-ext', // this or either 'roboto-font', NEVER both!
-      'roboto-font', // optional, you are not bound to it
-      'line-awesome'
-
     ],
 
     // https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-framework
     framework: {
-      iconSet: 'line-awesome', // Quasar icon set
       lang: 'pt-br', // Quasar language pack
-
       // Possible values for "all":
       // * 'auto' - Auto-import needed Quasar components & directives
       //            (slightly higher compile time; next to minimum bundle size; most convenient)
