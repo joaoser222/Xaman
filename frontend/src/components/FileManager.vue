@@ -13,13 +13,13 @@
                 <q-list>
                     <q-item dense clickable v-ripple @click="getContentPath(`${current_dir.split('/').slice(0,-1).join('/')}`)">
                         <q-item-section avatar>
-                            <q-icon color="primary" name="las la-arrow-left" />
+                            <q-icon color="primary" name="icon-arrow-back-outline" />
                         </q-item-section>
                         <q-item-section>..</q-item-section>
                     </q-item>
                     <q-item dense v-for="(item,index) in items" :key="index" clickable v-ripple @click="getContentPath(`${current_dir}/${item.name}`,item.type)">
                         <q-item-section avatar>
-                            <q-icon :color="item.type=='file' ? 'positive' : 'primary'" :name="item.type=='file' ? 'las la-file' : 'las la-folder'" />
+                            <q-icon :color="item.type=='file' ? 'positive' : 'primary'" :name="item.type=='file' ? 'icon-document' : 'icon-folder'" />
                         </q-item-section>
                         <q-item-section>{{item.name}}</q-item-section>
                     </q-item>
@@ -60,6 +60,7 @@ export default {
         },
         hide(){
             this.$refs.dialog.hide();
+            this.$q.loading.hide();
         },
         onDialogHide() {
             this.$emit('hide');
