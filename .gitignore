@@ -1,5 +1,5 @@
 **/__pycache__
-/app/app.db
+*.sqlite3
 frontend/node_modules
 venv/
 .vscode/
